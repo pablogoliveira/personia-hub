@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const personRoutes = require('./routes/personRoutes');
+const swagger = require('./swagger/swagger');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -10,6 +11,9 @@ const PORT = process.env.PORT || 3002;
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Swagger
+app.use('/api-docs', swagger.serve, swagger.setup);
 
 // Routes
 app.use('/api/pessoas', personRoutes);
@@ -39,4 +43,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`BFF is running on port ${PORT}`);
+  console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
 });

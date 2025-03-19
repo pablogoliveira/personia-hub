@@ -5,6 +5,7 @@ const cors = require('cors');
 const { sequelize } = require('./infrastructure/database/models');
 const personRoutes = require('./infrastructure/http/routes/personRoutes');
 const errorHandler = require('./infrastructure/http/middlewares/errorHandler');
+const swagger = require('./infrastructure/http/swagger/swagger');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 3001;
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Swagger
+app.use('/api-docs', swagger.serve, swagger.setup);
 
 // Routes
 app.use('/api/pessoas', personRoutes);
@@ -32,6 +36,7 @@ const startServer = async () => {
     
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
+      console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
     });
   } catch (error) {
     console.error('Unable to connect to the database:', error);
