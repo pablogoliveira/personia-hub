@@ -1,69 +1,129 @@
-# Welcome to your Lovable project
 
-## Project info
+# Sistema de Cadastro de Pessoas
 
-**URL**: https://lovable.dev/projects/6015c773-05ec-4f60-8f2e-32bb34f2f244
+Sistema completo para cadastro de pessoas com arquitetura hexagonal e microsserviços.
 
-## How can I edit this code?
+## Estrutura do Projeto
 
-There are several ways of editing your application.
+- **frontend**: Interface de usuário em React/TypeScript
+- **backend**: API principal com arquitetura hexagonal usando Node.js e Sequelize
+- **bff**: Backend For Frontend para intermediar a comunicação entre frontend e backend
 
-**Use Lovable**
+## Pré-requisitos
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6015c773-05ec-4f60-8f2e-32bb34f2f244) and start prompting.
+- Node.js (v14 ou superior)
+- MySQL (v8 ou superior)
+- npm ou yarn
 
-Changes made via Lovable will be committed automatically to this repo.
+## Configuração do Banco de Dados
 
-**Use your preferred IDE**
+1. Instale o MySQL e crie um usuário (ou use o root)
+2. Ajuste as variáveis de ambiente no arquivo `.env` no diretório `backend`
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Instalação e Execução
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Backend
 
-Follow these steps:
+```bash
+# Entrar no diretório do backend
+cd backend
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Instalar dependências
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Configurar banco de dados e executar migrações
+npm run setup-db
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Iniciar servidor de desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### BFF (Backend For Frontend)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Entrar no diretório do BFF
+cd bff
 
-**Use GitHub Codespaces**
+# Instalar dependências
+npm install
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Iniciar servidor de desenvolvimento
+npm run dev
+```
 
-## What technologies are used for this project?
+### Frontend
 
-This project is built with .
+```bash
+# Entrar no diretório principal do projeto
+cd frontend
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Instalar dependências
+npm install
 
-## How can I deploy this project?
+# Iniciar aplicação React
+npm run dev
+```
 
-Simply open [Lovable](https://lovable.dev/projects/6015c773-05ec-4f60-8f2e-32bb34f2f244) and click on Share -> Publish.
+## Portas Padrão
 
-## I want to use a custom domain - is that possible?
+- Frontend: http://localhost:8080
+- BFF: http://localhost:3002
+- Backend: http://localhost:3001
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## API Endpoints
+
+### Pessoas
+
+- `GET /api/pessoas` - Listar pessoas com paginação
+- `GET /api/pessoas/:id` - Buscar pessoa por ID
+- `POST /api/pessoas` - Criar nova pessoa
+- `PUT /api/pessoas/:id` - Atualizar pessoa existente
+- `DELETE /api/pessoas/:id` - Excluir pessoa
+
+## Arquitetura
+
+### Hexagonal (Ports and Adapters)
+
+O backend segue a arquitetura hexagonal dividida em:
+
+1. **Domain Layer**: Contém as entidades de negócio e interfaces de repositórios
+2. **Application Layer**: Casos de uso que implementam a lógica de negócio
+3. **Infrastructure Layer**: Adaptadores para frameworks e tecnologias externas
+
+### Microsserviços
+
+O sistema é dividido em:
+
+1. **Frontend**: Interface de usuário React/TypeScript
+2. **BFF**: Backend For Frontend para otimizar a comunicação
+3. **Backend**: Serviço principal com a lógica de negócio e persistência
+
+## Validações
+
+O sistema implementa validações em múltiplas camadas:
+
+1. **Frontend**: Validação em tempo real com feedback visual
+2. **BFF**: Validação adicional antes de encaminhar para o backend
+3. **Backend**: Validação de regras de negócio e consistência dos dados
+4. **Banco de Dados**: Constraints para garantir integridade
+
+## Desenvolvimento
+
+### Scripts Úteis
+
+**Backend:**
+- `npm run dev`: Inicia o servidor em modo desenvolvimento
+- `npm test`: Executa os testes unitários
+- `npm run setup-db`: Configura o banco de dados e executa migrações
+
+**BFF:**
+- `npm run dev`: Inicia o servidor BFF em modo desenvolvimento
+
+**Frontend:**
+- `npm run dev`: Inicia o servidor de desenvolvimento React
+- `npm test`: Executa os testes unitários
+- `npm run build`: Gera a versão de produção
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT.
